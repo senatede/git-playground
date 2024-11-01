@@ -43,17 +43,21 @@ print(f"Your word is '{word}'")
 
 while not is_game_over():
     guess = input("Your next take: ")
-
-    if not guess_is_valid(guess):
-        continue
-
-    if guess in full_list:
-        guessed += 1
+    if guess not in guesses:
         guesses.append(guess)
-        if guessed == WORDS_TO_WIN:
-            congratulate_user()
-            exit()
-        print(f"That's right! {WORDS_TO_WIN - guessed} to go")
+
+        if not guess_is_valid(guess):
+            continue
+
+        if guess in full_list:
+            guessed += 1
+            guesses.append(guess)
+            if guessed == WORDS_TO_WIN:
+                congratulate_user()
+                exit()
+            print(f"That's right! {WORDS_TO_WIN - guessed} to go")
+        else:
+            errors += 1
+            print(f"Oops :( No such word, you have {ERRORS_TO_LOSE - errors} lives more")
     else:
-        errors += 1
-        print(f"Oops :( No such word, you have {ERRORS_TO_LOSE - errors} lives more")
+        print("You have already guessed that word")
